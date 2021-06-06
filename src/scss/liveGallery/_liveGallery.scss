@@ -21,14 +21,10 @@
     	border-radius: 4px;
     	cursor: pointer;
 
-    	transition: all $animate * 2 ease;
+    	transition: all $animate * 2.5 ease;
 
-    	&.wave-effect-active {
-    		animation: 2s ease 0s infinite alternate wave-effect;
-    	}
-
-    	&.live-gallery-item-active {
-    		animation: 1.75s forwards block-appearance;
+    	&.heartbeat-effect-active {
+    		animation: 2s ease 0s infinite alternate heartbeat-effect;
     	}
 	}
 
@@ -81,28 +77,8 @@
 	.live-gallery-item-25 { right: 21%; top: 51%; width: 190px; height: 180px;}
 	.live-gallery-item-26 { left: 31%; bottom: 2%; }
 
-	@keyframes block-appearance {
-		0% {
-    		z-index: 50;
-    		transform: translate(0%, 0%);
-		}
 
-		80% {
-    		left: 50%;
-    		top: 50%;
-			transform: translate(-50%, -50%);
-		}
-
-		100% {
-    		left: 50%;
-    		top: 50%;
-			transform: translate(-50%, -50%) scale(1.2);
-			z-index: 50;
-			box-shadow: 0px 4px 20px rgba(0, 0, 0, 50%);
-		}
-	}
-
-	@keyframes wave-effect {
+	@keyframes heartbeat-effect {
 		0% {
 			transform: scale(1.0) translate(1px, 0px);
 		}

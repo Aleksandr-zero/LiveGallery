@@ -6,21 +6,13 @@ const sass              = require('gulp-sass');
 const cleanCSS          = require('gulp-clean-css');
 const del               = require('del');
 const concat            = require('gulp-concat');
-const webpack           = require("webpack-stream");
 const sync              = require('browser-sync').create();
 const babel             = require('gulp-babel');
 const uglify            = require('gulp-uglify');
-const replace           = require("gulp-replace");
 
 
-const htmlDev = () => {
+const html = () => {
     return src('src/**.html')
-        .pipe(dest('app'));
-};
-
-const htmlBuild = () => {
-    return src('src/**.html')
-        .pipe(replace(/type="module"/g, ""))
         .pipe(dest('app'));
 };
 
@@ -32,13 +24,17 @@ const scriptsDev = () => {
 
 const scriptsBuild = () => {
     return src("src/js/**/*")
-        .pipe(webpack(require("./webpack.config.js")))
+        .pipe(babel({
+            presets: ['@babel/preset-env']
+        }))
+        .pipe(uglify({
+            keep_fnames: true
+        }))
         .pipe(dest("app/js"));
 };
 
 const scriptsBuildDist = () => {
-    return src(["src/js/**.js", "!src/js/app.js"])
-        .pipe(replace(/export class/g, 'class'))
+    return src("src/js/**.js")
         .pipe(babel({
             presets: ['@babel/preset-env']
         }))
@@ -50,7 +46,7 @@ const scriptsBuildDist = () => {
 
 
 const scssDev = () => {
-   return src('src/scss/**.scss')
+   return src('src/scss/style.scss')
        .pipe(sass({
             outputStyle:'expanded'
         }))
@@ -59,20 +55,36 @@ const scssDev = () => {
 };
 
 const scssBuild = () => {
-   return src('src/scss/**.scss')
+   return src('src/scss/style.scss')
         .pipe(sass({
             outputStyle:'compressed'
         }))
         .pipe(removeCommentsCss())
-        .pipe(cleanCSS())
         .pipe(autoprefixer())
+        .pipe(cleanCSS({
+            level: 2
+        }))
         .pipe(concat('css/style.css'))
         .pipe(dest('app'));
 };
 
+const scssBuildScripts = () => {
+    return src("src/scss/liveGallery/liveGalleryBuild.scss")
+        .pipe(sass({
+            outputStyle:'compressed'
+        }))
+        .pipe(removeCommentsCss())
+        .pipe(autoprefixer())
+        .pipe(cleanCSS({
+            level: 2
+        }))
+        .pipe(concat('LiveGallery/liveGallery.css'))
+        .pipe(dest('./'));
+}
+
 
 const clear = () => {
-    return del(['./app', "./dist"]);
+    return del('./app');
 };
 
 const clearScripts = () => {
@@ -85,13 +97,13 @@ const serve = () => {
         server: './app/'
     });
 
-    watch('src/**/**.html',             series(htmlDev)).on('change', sync.reload);
+    watch('src/**/**.html',             series(html)).on('change', sync.reload);
     watch("src/js/**/**.js",            series(scriptsDev)).on('change', sync.reload);
     watch('src/scss/**/**.scss',        series(scssDev)).on('change', sync.reload);
 };
 
 
-exports.buildScripts = series(clearScripts, scriptsBuildDist)
-exports.build = series(clear, parallel(scssBuild, htmlBuild, scriptsBuild));
-exports.serve = series(clear, scssDev, htmlDev, scriptsDev, serve);
+exports.buildScripts = series(clearScripts, parallel(scriptsBuildDist, scssBuildScripts));
+exports.build = series(clear, parallel(scssBuild, html, scriptsBuild));
+exports.serve = series(clear, scssDev, html, scriptsDev, serve);
 exports.clear = clear;
