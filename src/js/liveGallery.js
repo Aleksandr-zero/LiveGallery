@@ -215,7 +215,7 @@ class LiveGallery {
 };
 
 
-const blockLiveGallery = document.querySelector(".live-gallery");
+// const blockLiveGallery = document.querySelector(".live-gallery");
 
 // const newLiveGallery = new LiveGallery(blockLiveGallery, {
 // 	sunEffect: {
