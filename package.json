@@ -12,6 +12,11 @@
   "browserslist": [
     "last 2 versions"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aleksandr-zero/LiveGallery.git"
+  },
+  "homepage": "https://github.com/Aleksandr-zero/LiveGallery#readme",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.3",
