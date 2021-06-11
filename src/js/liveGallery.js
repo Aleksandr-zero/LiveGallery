@@ -21,9 +21,6 @@ const findClasslLocation = (pressedBlock) => {
 };
 
 
-console.log(getComputedStyle(document.querySelector(".live-gallery")).height);
-
-
 class LiveGallery {
     /**
 	* @param container -> block "live-gallery"
@@ -218,16 +215,16 @@ class LiveGallery {
 };
 
 
-const blockLiveGallery = document.querySelector(".live-gallery");
+// const blockLiveGallery = document.querySelector(".live-gallery");
 
-const newLiveGallery = new LiveGallery(blockLiveGallery, {
-	sunEffect: {
-		turnOn: true,
-		angleOincidence: 1.3
-	},
-	baseShadowTemplate: 6,
-	baseShadowTransparency: 50,
-	shadowMultiplicationFactor: 1.25,
-	blurShadow: 30
-});
-newLiveGallery.run();
+// const newLiveGallery = new LiveGallery(blockLiveGallery, {
+// 	sunEffect: {
+// 		turnOn: true,
+// 		angleOincidence: 1.3
+// 	},
+// 	baseShadowTemplate: 6,
+// 	baseShadowTransparency: 50,
+// 	shadowMultiplicationFactor: 1.25,
+// 	blurShadow: 30
+// });
+// newLiveGallery.run();
