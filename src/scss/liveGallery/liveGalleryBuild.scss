@@ -11,15 +11,20 @@
 	.layer-2,
 	.layer-3 {
 		position: absolute;
+		transition: all 0.4 ease;
 
     	&.heartbeat-effect-active {
     		animation: 2s ease 0s infinite alternate heartbeat-effect;
     	}
+
+    	&.wave-effect-active {
+    		animation: 2.4s cubic-bezier(0.1, -0.6, 0.2, 0) 0s infinite alternate wave-effect;
+    	}
 	}
 
-	.layer-1 { z-index: 15; }
-	.layer-2 { z-index: 10; }
-	.layer-3 { z-index: 5; 	}
+	.layer-1 { z-index: 20; }
+	.layer-2 { z-index: 15; }
+	.layer-3 { z-index: 10; }
 
 
 	@keyframes heartbeat-effect {
@@ -29,6 +34,16 @@
 
 		100% {
 			transform: scale(1.05) translate(0px, -4px);
+		}
+	}
+
+	@keyframes wave-effect {
+		0% {
+			transform: rotateX(0deg) rotateY(0deg);
+		}
+
+		100% {
+			transform: rotateX(-15deg) rotateY(10deg);
 		}
 	}
 }

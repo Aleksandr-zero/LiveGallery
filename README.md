@@ -11,12 +11,12 @@ Connection JS:
 <script src="https://aleksandr-zero.github.io/LiveGallery/LiveGallery/liveGallery.js"></script>
 ```
 
-Connection CSS:
+Connect default CSS:
 ```xml
 <link rel="stylesheet" href="https://aleksandr-zero.github.io/LiveGallery/LiveGallery/liveGallery.css">
 ```
 
-START
+### HTML
 
 ```xml
 <div class="live-gallery">
@@ -40,6 +40,8 @@ does not overlap the higher-level layer, but overlap the lower-level ones.
 <span style="text-decoration: underline;">**Your block must have one of the layer class!**</span><br>
 <span style="text-decoration: underline;">**Support only goes up to level 3!**</span>
 
+**You set the height for the `live-gallery` block manually**
+
 **Class Location** is responsible for the location of your **layer**.
 
 | Class Location  | Description     |
@@ -50,6 +52,15 @@ does not overlap the higher-level layer, but overlap the lower-level ones.
 | `rb` | Entries in **css**: `right: <count>; bottom: <count>`|
 
 <span style="text-decoration: underline;">**Your layer must contain a location class!**</span>
+
+**Default animations**
+
+| Default animations                     | Description       |
+|----------------------------------------|-------------------|
+| **class** -> `heartbeat-effect-active` | Adds a heartbeat effect |
+| **class** -> `wave-effect`             | Adds a wave effect |
+
+### JS
 
 ```js
 const blockLiveGallery = document.querySelector(".live-gallery");

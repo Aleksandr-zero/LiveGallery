@@ -21,6 +21,9 @@ const findClasslLocation = (pressedBlock) => {
 };
 
 
+console.log(getComputedStyle(document.querySelector(".live-gallery")).height);
+
+
 class LiveGallery {
     /**
 	* @param container -> block "live-gallery"
@@ -36,37 +39,12 @@ class LiveGallery {
 		this.percentPositionLeft = this.widthContainerGallery / 100;
 		this.percentPositionTop = this.heightContainerGallery / 100;
 
-
 		this.addOptions();
 		this.createShadow();
 		this.createTableClass();
 
-		this.openBlock = () => {
-			/* При клике на указанный блок октрывает его.  */
-
-			if ( !checkContainsClass(event.target.classList) ) {
-				return;
-			};
-
-			this.pressedBlock = event.target;
-			this.createAnimationEmergenceBlock();
-
-			this.removeEventClickGallery();
-			document.addEventListener("click", this.closeBlock);
-		};
-
-		this.closeBlock = () => {
-			/* При клике на неактивный участок или на сам блок то мы его удаляем.  */
-
-			if (event.target === this.pressedBlock) {
-				return;
-			};
-
-			this.deleteAnimationEmergenceBlock();
-
-			this.removeEventClickGallery();
-			this.addEventClickGallery();
-		};
+		this.openBlock_ = () => { this.openBlock(); };
+		this.closeBlock_ = () => { this.closeBlock(); };
 	}
 
 	addOptions() {
@@ -87,14 +65,40 @@ class LiveGallery {
 	}
 
 	addEventClickGallery() {
-		/* Добавляет событие клик на галлерею.  */
-		this.container.addEventListener("click", this.openBlock);
+		this.container.addEventListener("click", this.openBlock_);
 	}
 
 	removeEventClickGallery() {
-		this.container.removeEventListener("click", this.openBlock);
-		document.removeEventListener("click", this.closeBlock);
+		this.container.removeEventListener("click", this.openBlock_);
+		document.removeEventListener("click", this.closeBlock_);
 	}
+
+	openBlock() {
+		/* При клике на указанный блок октрывает его.  */
+
+		if ( !checkContainsClass(event.target.classList) ) {
+			return;
+		};
+
+		this.pressedBlock = event.target;
+		this.createAnimationEmergenceBlock();
+
+		this.removeEventClickGallery();
+		document.addEventListener("click", this.closeBlock_);
+	};
+
+	closeBlock() {
+		/* При клике на неактивный участок или на сам блок то мы его удаляем.  */
+
+		if (event.target === this.pressedBlock) {
+			return;
+		};
+
+		this.deleteAnimationEmergenceBlock();
+
+		this.removeEventClickGallery();
+		this.addEventClickGallery();
+	};
 
 	createTableClass() {
 		/* Содаёт таблицу классов для показа блока.  */
@@ -188,7 +192,7 @@ class LiveGallery {
 		setTimeout(() => {
 			this.pressedBlock.style.animation = this.animationPressedBtn;
 			this.pressedBlock = undefined;
-		}, 501);
+		}, 550);
 	}
 
 	renderStyle_InHead() {
@@ -209,22 +213,21 @@ class LiveGallery {
 
 	run() {
 		this.renderStyle_InHead();
-
 		this.addEventClickGallery();
 	}
 };
 
 
-// const blockLiveGallery = document.querySelector(".live-gallery");
+const blockLiveGallery = document.querySelector(".live-gallery");
 
-// const newLiveGallery = new LiveGallery(blockLiveGallery, {
-// 	sunEffect: {
-// 		turnOn: true,
-// 		angleOincidence: 1.3
-// 	},
-// 	baseShadowTemplate: 6,
-// 	baseShadowTransparency: 50,
-// 	shadowMultiplicationFactor: 1.25,
-// 	blurShadow: 30
-// });
-// newLiveGallery.run();
+const newLiveGallery = new LiveGallery(blockLiveGallery, {
+	sunEffect: {
+		turnOn: true,
+		angleOincidence: 1.3
+	},
+	baseShadowTemplate: 6,
+	baseShadowTransparency: 50,
+	shadowMultiplicationFactor: 1.25,
+	blurShadow: 30
+});
+newLiveGallery.run();
