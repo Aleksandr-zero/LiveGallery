@@ -1,1 +1,228 @@
-"use strict";function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _defineProperties(e,t){for(var n=0;n<t.length;n++){var a=t[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}function _createClass(e,t,n){return t&&_defineProperties(e.prototype,t),n&&_defineProperties(e,n),e}var classListLocation=["lt","lb","rt","rb"],checkContainsClass=function checkContainsClass(e){for(var t=0;t<e.length;t++)if(e[t].includes("layer"))return!0},findClasslLocation=function findClasslLocation(e){for(var t in classListLocation)if(e.classList.contains(classListLocation[t]))return classListLocation[t]},LiveGallery=function(){function LiveGallery(e,t){var n=this;_classCallCheck(this,LiveGallery),this.container=e,this.options=t,this.widthContainerGallery=e.clientWidth,this.heightContainerGallery=e.clientHeight,this.percentPositionLeft=this.widthContainerGallery/100,this.percentPositionTop=this.heightContainerGallery/100,this.addOptions(),this.createShadow(),this.createTableClass(),this.openBlock_=function(){n.openBlock()},this.closeBlock_=function(){n.closeBlock()}}return _createClass(LiveGallery,[{key:"addOptions",value:function addOptions(){this.sunEffect=!!this.options.sunEffect.turnOn&&this.options.sunEffect,this.sunEffect&&(this.angleOincidence=this.sunEffect.angleOincidence),this.baseShadowTemplate=this.options.baseShadowTemplate||3,this.baseShadowTransparency=this.options.baseShadowTransparency||25,this.shadowMultiplicationFactor=this.options.shadowMultiplicationFactor||1,this.blurShadow=this.options.blurShadow||15,this.classAnimates=this.options.classAnimates||void 0}},{key:"addEventClickGallery",value:function addEventClickGallery(){this.container.addEventListener("click",this.openBlock_)}},{key:"removeEventClickGallery",value:function removeEventClickGallery(){this.container.removeEventListener("click",this.openBlock_),document.removeEventListener("click",this.closeBlock_)}},{key:"openBlock",value:function openBlock(){checkContainsClass(event.target.classList)&&(this.pressedBlock=event.target,this.createAnimationEmergenceBlock(),this.removeEventClickGallery(),document.addEventListener("click",this.closeBlock_))}},{key:"closeBlock",value:function closeBlock(){event.target!==this.pressedBlock&&(this.deleteAnimationEmergenceBlock(),this.removeEventClickGallery(),this.addEventClickGallery())}},{key:"createTableClass",value:function createTableClass(){this.classTable={lt:["left: 50%","top: 50%","transform: translate(-50%, -50%) scale(1.25)"],lb:["left: 50%","bottom: 50%","transform: translate(-50%, 50%) scale(1.25)"],rt:["right: 50%","top: 50%","transform: translate(50%, -50%) scale(1.25)"],rb:["right: 50%","bottom: 50%","transform: translate(50%, 50%) scale(1.25)"]}}},{key:"createShadow",value:function createShadow(){var e,t;this.sunEffect?12===this.angleOincidence?this.boxShadow="0px ".concat(3*this.baseShadowTemplate,"px ").concat(this.blurShadow,"px rgba(0, 0, 0, {{ transparency }})"):6===this.angleOincidence?this.boxShadow="0px -".concat(3*this.baseShadowTemplate,"px ").concat(this.blurShadow,"px rgba(0, 0, 0, {{ transparency }})"):this.angleOincidence<6?(e=this.baseShadowTemplate*this.angleOincidence/2*(this.baseShadowTemplate/this.angleOincidence),t=this.baseShadowTemplate*(this.baseShadowTemplate/this.angleOincidence),e=Math.round(e),t=Math.round(4<=this.angleOincidence?-t:t),this.boxShadow="-".concat(e,"px ").concat(t,"px ").concat(this.blurShadow,"px rgba(0, 0, 0, {{ transparency }})")):6<this.angleOincidence&&(e=this.baseShadowTemplate*this.angleOincidence/5*(this.angleOincidence/this.baseShadowTemplate),t=this.baseShadowTemplate*this.angleOincidence/3.7*(this.baseShadowTemplate/this.angleOincidence)+4,e=Math.round(e),t=Math.round(this.angleOincidence<=9?-t:t),this.boxShadow="".concat(e,"px ").concat(t,"px ").concat(this.blurShadow,"px rgba(0, 0, 0, {{ transparency }})")):this.boxShadow="0px 0px ".concat(this.blurShadow,"px rgba(0, 0, 0, transparency)")}},{key:"createAnimationEmergenceBlock",value:function createAnimationEmergenceBlock(){var e=this,t=findClasslLocation(this.pressedBlock),n=this.classTable[t];this.animationPressedBtn=getComputedStyle(this.pressedBlock).animation,this.pressedBlock.style.cssText="animation: none;",setTimeout(function(){e.pressedBlock.style.cssText="\n\t\t\t\tanimation: none;\n\t\t\t\t".concat(n[0],";\n\t\t\t\t").concat(n[1],";\n\t\t\t\t").concat(n[2],";\n\t\t\t\tz-index: 40;\n\t\t\t")},0)}},{key:"deleteAnimationEmergenceBlock",value:function deleteAnimationEmergenceBlock(){var e=this;setTimeout(function(){e.pressedBlock.removeAttribute("style"),e.pressedBlock.style.animation="none"},0),setTimeout(function(){e.pressedBlock.style.animation=e.animationPressedBtn,e.pressedBlock=void 0},550)}},{key:"renderStyle_InHead",value:function renderStyle_InHead(){var e=document.querySelector("head"),t=document.createElement("style");t.innerHTML="\n\t\t\t.layer-1 { box-shadow: ".concat(this.boxShadow.replace(/{{ transparency }}/g,"".concat(this.baseShadowTransparency,"%")),"; }\n\t\t\t.layer-2 { box-shadow: ").concat(this.boxShadow.replace(/{{ transparency }}/g,"".concat(this.baseShadowTransparency*this.shadowMultiplicationFactor,"%")),"; }\n\t\t\t.layer-3 { box-shadow: ").concat(this.boxShadow.replace(/{{ transparency }}/g,"".concat(this.baseShadowTransparency*this.shadowMultiplicationFactor,"%")),"; }\n\t\t"),e.append(t)}},{key:"run",value:function run(){this.renderStyle_InHead(),this.addEventClickGallery()}}]),LiveGallery}(),blockLiveGallery=document.querySelector(".live-gallery"),newLiveGallery=new LiveGallery(blockLiveGallery,{sunEffect:{turnOn:!0,angleOincidence:1.3},baseShadowTemplate:6,baseShadowTransparency:50,shadowMultiplicationFactor:1.25,blurShadow:30});newLiveGallery.run();
+const classListLocation = ["lt", "lb", "rt", "rb"];
+
+const checkContainsClass = (classList) => {
+	/* Проверяет содержит ли класс блока при клике на block "live-gallery".  */
+	for (let index = 0; index < classList.length; index++) {
+		if ( classList[index].includes("layer") ) {
+			return true;
+		};
+	};
+};
+
+const findClasslLocation = (pressedBlock) => {
+	/* Находит класс местоположения блока.  */
+	for (const classLocation in classListLocation) {
+		if (pressedBlock.classList.contains(classListLocation[classLocation])) {
+			return classListLocation[classLocation];
+		};
+	};
+};
+
+
+class LiveGallery {
+  /**
+	* @param container -> block "live-gallery"
+	* @param options -> custom settings
+	*/
+
+	constructor(container, options) {
+		this.container = container;
+		this.options = options;
+
+		this.widthContainerGallery = container.clientWidth;
+		this.heightContainerGallery = container.clientHeight;
+		this.percentPositionLeft = this.widthContainerGallery / 100;
+		this.percentPositionTop = this.heightContainerGallery / 100;
+
+		this.addOptions();
+		this.createShadow();
+		this.createTableClass();
+
+		this.openBlock_ = () => { this.openBlock(); };
+		this.closeBlock_ = () => { this.closeBlock(); };
+	}
+
+	addOptions() {
+		/* Устанавливает пользовательские настройки.  */
+
+		this.sunEffect = (this.options.sunEffect.turnOn) ? this.options.sunEffect : false;
+
+		if (this.sunEffect) {
+			this.angleOincidence = this.sunEffect.angleOincidence;
+		};
+
+		this.baseShadowTemplate = (this.options.baseShadowTemplate) ? this.options.baseShadowTemplate : 3;
+		this.baseShadowTransparency = (this.options.baseShadowTransparency) ? this.options.baseShadowTransparency : 25;
+		this.shadowMultiplicationFactor = (this.options.shadowMultiplicationFactor) ?
+											this.options.shadowMultiplicationFactor : 1;
+		this.blurShadow = (this.options.blurShadow) ? this.options.blurShadow : 15;
+		this.classAnimates = (this.options.classAnimates) ? this.options.classAnimates : undefined;
+	}
+
+	addEventClickGallery() {
+		this.container.addEventListener("click", this.openBlock_);
+	}
+
+	removeEventClickGallery() {
+		this.container.removeEventListener("click", this.openBlock_);
+		document.removeEventListener("click", this.closeBlock_);
+	}
+
+	openBlock() {
+		/* При клике на указанный блок октрывает его.  */
+		if ( !checkContainsClass(event.target.classList) ) {
+			return;
+		};
+
+		this.pressedBlock = event.target;
+		this.createAnimationEmergenceBlock();
+
+		this.removeEventClickGallery();
+		document.addEventListener("click", this.closeBlock_);
+	};
+
+	closeBlock() {
+		/* При клике на неактивный участок или на сам блок то мы его удаляем.  */
+		if (event.target === this.pressedBlock) {
+			return;
+		};
+
+		this.deleteAnimationEmergenceBlock();
+
+		this.removeEventClickGallery();
+		this.addEventClickGallery();
+	};
+
+	createTableClass() {
+		/* Содаёт таблицу классов для показа блока. */
+		this.classTable = {
+			"lt": [
+				"left: 50%",
+				"top: 50%",
+				"transform: translate(-50%, -50%) scale(1.25)",
+				"-webkit-transform: translate(-50%, -50%) scale(1.25)"
+			],
+			"lb": [
+				"left: 50%",
+				"bottom: 50%",
+				"transform: translate(-50%, 50%) scale(1.25)",
+				"-webkit-transform: translate(-50%, 50%) scale(1.25)"
+			],
+			"rt": [
+				"right: 50%",
+				"top: 50%",
+				"transform: translate(50%, -50%) scale(1.25)",
+				"-webkit-transform: translate(50%, -50%) scale(1.25)"
+			],
+			"rb": [
+				"right: 50%",
+				"bottom: 50%",
+				"transform: translate(50%, 50%) scale(1.25)",
+				"-webkit-transform: translate(50%, 50%) scale(1.25)"
+			]
+		};
+	}
+
+	createShadow() {
+		/* Создаёт тень для слоя. */
+		if (!this.sunEffect) {
+			this.boxShadow = `0px 0px ${this.blurShadow}px rgba(0, 0, 0, transparency)`;
+			return;
+		};
+
+		if (this.angleOincidence === 12) {
+			this.boxShadow = `0px ${this.baseShadowTemplate * 3}px ${this.blurShadow}px rgba(0, 0, 0, {{ transparency }})`;
+
+		} else if (this.angleOincidence === 6) {
+			this.boxShadow = `0px -${this.baseShadowTemplate * 3}px ${this.blurShadow}px rgba(0, 0, 0, {{ transparency }})`;
+
+		} else if (this.angleOincidence < 6) {
+			let positionX = ( this.baseShadowTemplate * this.angleOincidence / 2 ) * ( this.baseShadowTemplate / this.angleOincidence );
+			let positionY =  this.baseShadowTemplate * ( this.baseShadowTemplate / this.angleOincidence );
+
+			positionX = Math.round(positionX);
+			positionY = Math.round((this.angleOincidence >= 4) ? -(positionY) : positionY);
+
+			this.boxShadow = `-${positionX}px ${positionY}px ${this.blurShadow}px rgba(0, 0, 0, {{ transparency }})`;
+
+		} else if (this.angleOincidence > 6) {
+			let positionX = ( this.baseShadowTemplate * this.angleOincidence / 5 ) * ( this.angleOincidence / this.baseShadowTemplate );
+			let positionY = ( this.baseShadowTemplate * this.angleOincidence / 3.7 ) * ( this.baseShadowTemplate / this.angleOincidence ) + 4;
+
+			positionX = Math.round(positionX);
+			positionY = Math.round((this.angleOincidence <= 9) ? -(positionY) : positionY);
+
+			this.boxShadow = `${positionX}px ${positionY}px ${this.blurShadow}px rgba(0, 0, 0, {{ transparency }})`;
+		};
+	}
+
+	createAnimationEmergenceBlock() {
+		/* Реализует анимацию появление блока в центр (на показ). */
+		const classLocation = findClasslLocation(this.pressedBlock);
+		const location = this.classTable[classLocation];
+
+		this.animationPressedBtn = getComputedStyle(this.pressedBlock).animation;
+
+		this.pressedBlock.style.cssText = "animation: none;"
+		setTimeout(() => {
+			this.pressedBlock.style.cssText = `
+				animation: none;
+				${location[0]};
+				${location[1]};
+				${location[2]};
+				${location[3]};
+				z-index: 40;
+			`;
+		}, 0)
+	}
+
+	deleteAnimationEmergenceBlock() {
+		/* Возвращает блок на прежнее место. */
+		const pressedBlock = this.pressedBlock;
+
+		setTimeout(() => {
+			pressedBlock.removeAttribute("style");
+			pressedBlock.style.animation = "none";
+		}, 0);
+
+		setTimeout(() => {
+			pressedBlock.style.animation = this.animationPressedBtn;
+		}, 550);
+
+		this.pressedBlock = undefined;
+	}
+
+	renderStyle_InHead() {
+		/* Рендерит стили для блоков с слоями. */
+		const headDocument = document.querySelector("head");
+		const blockStyle = document.createElement("style");
+
+		blockStyle.innerHTML = `
+			.layer-1 { box-shadow: ${this.boxShadow.replace(/{{ transparency }}/g, `${this.baseShadowTransparency}%`)}; }
+			.layer-2 { box-shadow: ${this.boxShadow.replace(/{{ transparency }}/g, `${this.baseShadowTransparency * this.shadowMultiplicationFactor}%`)}; }
+			.layer-3 { box-shadow: ${this.boxShadow.replace(/{{ transparency }}/g, `${this.baseShadowTransparency * this.shadowMultiplicationFactor}%`)}; }
+		`;
+
+		headDocument.append(blockStyle);
+	}
+
+	run() {
+		this.renderStyle_InHead();
+		this.addEventClickGallery();
+	}
+};
+
+
+const blockLiveGallery = document.querySelector(".live-gallery");
+
+const newLiveGallery = new LiveGallery(blockLiveGallery, {
+	sunEffect: {
+		turnOn: true,
+		angleOincidence: 1.3
+	},
+	baseShadowTemplate: 6,
+	baseShadowTransparency: 50,
+	shadowMultiplicationFactor: 1.25,
+	blurShadow: 30
+});
+newLiveGallery.run();

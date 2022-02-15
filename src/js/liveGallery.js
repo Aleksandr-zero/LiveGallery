@@ -2,7 +2,6 @@ const classListLocation = ["lt", "lb", "rt", "rb"];
 
 const checkContainsClass = (classList) => {
 	/* Проверяет содержит ли класс блока при клике на block "live-gallery".  */
-
 	for (let index = 0; index < classList.length; index++) {
 		if ( classList[index].includes("layer") ) {
 			return true;
@@ -12,7 +11,6 @@ const checkContainsClass = (classList) => {
 
 const findClasslLocation = (pressedBlock) => {
 	/* Находит класс местоположения блока.  */
-
 	for (const classLocation in classListLocation) {
 		if (pressedBlock.classList.contains(classListLocation[classLocation])) {
 			return classListLocation[classLocation];
@@ -22,7 +20,7 @@ const findClasslLocation = (pressedBlock) => {
 
 
 class LiveGallery {
-    /**
+  /**
 	* @param container -> block "live-gallery"
 	* @param options -> custom settings
 	*/
@@ -72,7 +70,6 @@ class LiveGallery {
 
 	openBlock() {
 		/* При клике на указанный блок октрывает его.  */
-
 		if ( !checkContainsClass(event.target.classList) ) {
 			return;
 		};
@@ -86,7 +83,6 @@ class LiveGallery {
 
 	closeBlock() {
 		/* При клике на неактивный участок или на сам блок то мы его удаляем.  */
-
 		if (event.target === this.pressedBlock) {
 			return;
 		};
@@ -98,35 +94,37 @@ class LiveGallery {
 	};
 
 	createTableClass() {
-		/* Содаёт таблицу классов для показа блока.  */
-
+		/* Содаёт таблицу классов для показа блока. */
 		this.classTable = {
 			"lt": [
 				"left: 50%",
 				"top: 50%",
-				"transform: translate(-50%, -50%) scale(1.25)"
+				"transform: translate(-50%, -50%) scale(1.25)",
+				"-webkit-transform: translate(-50%, -50%) scale(1.25)"
 			],
 			"lb": [
 				"left: 50%",
 				"bottom: 50%",
-				"transform: translate(-50%, 50%) scale(1.25)"
+				"transform: translate(-50%, 50%) scale(1.25)",
+				"-webkit-transform: translate(-50%, 50%) scale(1.25)"
 			],
 			"rt": [
 				"right: 50%",
 				"top: 50%",
-				"transform: translate(50%, -50%) scale(1.25)"
+				"transform: translate(50%, -50%) scale(1.25)",
+				"-webkit-transform: translate(50%, -50%) scale(1.25)"
 			],
 			"rb": [
 				"right: 50%",
 				"bottom: 50%",
-				"transform: translate(50%, 50%) scale(1.25)"
+				"transform: translate(50%, 50%) scale(1.25)",
+				"-webkit-transform: translate(50%, 50%) scale(1.25)"
 			]
 		};
 	}
 
 	createShadow() {
-		/* Создаёт тень для слоя.  */
-
+		/* Создаёт тень для слоя. */
 		if (!this.sunEffect) {
 			this.boxShadow = `0px 0px ${this.blurShadow}px rgba(0, 0, 0, transparency)`;
 			return;
@@ -159,8 +157,7 @@ class LiveGallery {
 	}
 
 	createAnimationEmergenceBlock() {
-		/* Реализует анимацию появление блока в центр (на показ).  */
-
+		/* Реализует анимацию появление блока в центр (на показ). */
 		const classLocation = findClasslLocation(this.pressedBlock);
 		const location = this.classTable[classLocation];
 
@@ -173,28 +170,30 @@ class LiveGallery {
 				${location[0]};
 				${location[1]};
 				${location[2]};
+				${location[3]};
 				z-index: 40;
 			`;
 		}, 0)
 	}
 
 	deleteAnimationEmergenceBlock() {
-		/* Возвращает блок на прежнее место.  */
+		/* Возвращает блок на прежнее место. */
+		const pressedBlock = this.pressedBlock;
 
 		setTimeout(() => {
-			this.pressedBlock.removeAttribute("style");
-			this.pressedBlock.style.animation = "none";
+			pressedBlock.removeAttribute("style");
+			pressedBlock.style.animation = "none";
 		}, 0);
 
 		setTimeout(() => {
-			this.pressedBlock.style.animation = this.animationPressedBtn;
-			this.pressedBlock = undefined;
+			pressedBlock.style.animation = this.animationPressedBtn;
 		}, 550);
+
+		this.pressedBlock = undefined;
 	}
 
 	renderStyle_InHead() {
-		/* Рендерит стили для блоков с слоями.  */
-
+		/* Рендерит стили для блоков с слоями. */
 		const headDocument = document.querySelector("head");
 		const blockStyle = document.createElement("style");
 
@@ -207,24 +206,8 @@ class LiveGallery {
 		headDocument.append(blockStyle);
 	}
 
-
 	run() {
 		this.renderStyle_InHead();
 		this.addEventClickGallery();
 	}
 };
-
-
-// const blockLiveGallery = document.querySelector(".live-gallery");
-
-// const newLiveGallery = new LiveGallery(blockLiveGallery, {
-// 	sunEffect: {
-// 		turnOn: true,
-// 		angleOincidence: 1.3
-// 	},
-// 	baseShadowTemplate: 6,
-// 	baseShadowTransparency: 50,
-// 	shadowMultiplicationFactor: 1.25,
-// 	blurShadow: 30
-// });
-// newLiveGallery.run();
